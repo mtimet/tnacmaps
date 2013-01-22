@@ -28,8 +28,8 @@ var svg = d3.select("body").append("svg")
     .attr("width", width)
     .attr("height", height);
 
-d3.json("topojson/delegations.json", function(error, topology) {
-  var delegations = topojson.object(topology, topology.objects.delegations).geometries;
+d3.json("topojson/delegations-full.json", function(error, topology) {
+  var delegations = topojson.object(topology, topology.objects['delegations-full']).geometries;
   var neighbors = topojson.neighbors(topology, delegations);
 
   var projection = d3.geo.mercator()
@@ -44,12 +44,12 @@ d3.json("topojson/delegations.json", function(error, topology) {
       .enter().append("path")
       .attr("d", path)
       .style("fill", function(d, i) { return color(d.color = d3.max(neighbors[i], function(n) { return delegations[n].color; }) + 1 | 0); });
-/*
-  svg.append("path")
-      .datum(topojson.mesh(topology, topology.objects.delegations, function(a, b) { return a.properties.adm_id === b.properties.adm_id; }))
+
+  svg.append("path") // thin grey stroke for internal county boundaries
+      .datum(topojson.mesh(topology, topology.objects['delegations-full'], function(a, b) { return a.properties.code_circo !== b.properties.code_circo; }))
       .attr("d", path)
       .attr("class", "country-boundary");
-*/  
+  
 });
 
 </script>
