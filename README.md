@@ -17,6 +17,11 @@ modifications:
 - Add Jarzouna delegation to Bizerte governorate. (by hand replicating images found in the web like: http://www.mdci.gov.tn/tn/Gov/Bizerte.html and http://www.zonu.com/imapa/africa/Carte_Gouvernorat_Bizerte_Tunisie.jpg)
 - Add Zaouia Ksiba Thraya delegation to Sousse governorate. (needs to check that split is OK, can't find a reliable up to date map containing the delegation)
 - Add Thyna delegation to Sfax governorate (as described in http://www.gouvernorat-sfax.gov.tn/thyna.htm)
+- Update metadata and ids to Kairouan Sud delegation in the Kairouan governorate.
+- Update metadata and ids to Majel BelAbes delegation in Kasserine governorate.
+- Update metadata and ids to Medenine Sud delegation in Medenine governorate.
+- Update metadata and ids to Tataouine Sud delegation in Tataouine governorate.
+- Split Douz in 2 delegations: Douz Nord et Douz Sud in Kebili governorate (as in page 116 of http://www.ins.nat.tn/publication/rgph2004_volume35.pdf)
 
 TODO:
 - check Zaouia Ksiba Thraya delegation. (Sousse governorate)
