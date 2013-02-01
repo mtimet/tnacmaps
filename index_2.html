@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+ 
+path {
+  fill: none;
+  stroke: black;
+  stroke-width: .2px;
+}
+ 
+.cantons {
+  fill: #efefef;
+  stroke: none;
+}
+
+.canton-boundary {
+  stroke-width: .5px;  
+}
+
+.land-boundary {
+  stroke-width: .8px;
+}
+ 
+.municipality-boundary {
+  stroke: #aaa;
+}
+ 
+</style>
+<body>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://d3js.org/topojson.v0.min.js"></script>
+<script>
+ 
+var width = 960,
+    height = 500;
+ 
+var projection = d3.geo.albers()
+    .rotate([-9.5, 0])
+    .center([4, 33.9])
+    .scale(3500);
+var color = d3.scale.category10();
+
+var path = d3.geo.path()
+    .projection(projection);
+ 
+var svg = d3.select("body").append("svg")
+    .attr("width", width)
+    .attr("height", height);
+ 
+d3.json("topojson/delegations.json", function(error, tunisia) {
+  var delegations = topojson.object(tunisia, tunisia.objects.delegations).geometries;
+  var neighbors = topojson.neighbors(tunisia, delegations);
+ 
+  svg.selectAll("path")
+      .data(delegations)
+      .enter()
+      .append('path')
+      .attr("class", "canton")
+      .attr("d", path)
+      .attr("class", "cantons")
+      .style("fill", function(d, i) { return color(d.color = d3.max(neighbors[i], function(n) { return delegations[n].color; }) + 1 | 0); });
+ 
+  svg.append("path")
+      .datum(topojson.mesh(tunisia, tunisia.objects.delegations, function(a, b) { return a.properties.gov_id === b.properties.gov_id && a.properties.deleg_id !== b.properties.deleg_id; }))
+      .attr("class", "municipality-boundary")
+      .attr("d", path);
+
+  svg.append("path")
+      .datum(topojson.mesh(tunisia, tunisia.objects.delegations, function(a, b) { return a.properties.gov_id !== b.properties.gov_id; }))
+      .attr("class", "canton-boundary")
+      .attr("d", path);
+
+  svg.append("path")
+      .datum(topojson.mesh(tunisia, tunisia.objects.delegations, function(a, b) { return a.properties.gov_id === b.properties.gov_id && a.properties.deleg_id === b.properties.deleg_id;  }))
+      .attr("d", path)
+      .attr("class", "land-boundary");
+ 
+  
+});
+ 
+</script>
